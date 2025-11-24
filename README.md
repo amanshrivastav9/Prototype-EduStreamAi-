@@ -1,6 +1,6 @@
 # Prototype-EduStreamAi-
 
-🚀 Frontend Prototype – Edu/Tech Project
+🚀 Frontend Prototype – EduStreamAi Project
 
 This repository contains the frontend prototype of my project.
 It is not a complete project yet — the purpose of this upload is only to showcase the initial UI/UX, design flow, and structure.
