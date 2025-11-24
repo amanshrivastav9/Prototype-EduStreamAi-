@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduStreamAI - Course</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', Arial, sans-serif;
+        }
+
+        :root {
+            --navy-blue: #003366;
+            --dark-blue: #002B5B;
+            --teal: #0099CC;
+            --green: #00CC66;
+            --bright-green: #00C853;
+            --white: #FFFFFF;
+            --light-gray: #f5f5f5;
+            --medium-gray: #e5e5e5;
+            --dark-gray: #606060;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        /* Header Styles */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            height: 70px;
+            background-color: var(--white);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-icon {
+            font-size: 32px;
+            color: var(--navy-blue);
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .logo-edu {
+            color: var(--dark-blue);
+        }
+
+        .logo-ai {
+            color: var(--bright-green);
+        }
+
+        .tagline {
+            font-size: 12px;
+            color: var(--dark-gray);
+            margin-top: -5px;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            flex: 0 1 728px;
+            margin: 0 40px;
+        }
+
+        .search-input {
+            height: 40px;
+            flex: 1;
+            padding: 0 12px;
+            font-size: 16px;
+            border: 1px solid var(--medium-gray);
+            border-radius: 20px 0 0 20px;
+            max-width: 575px;
+        }
+
+        .search-button {
+            height: 40px;
+            width: 64px;
+            background: linear-gradient(135deg, var(--teal), var(--green));
+            border: none;
+            border-radius: 0 20px 20px 0;
+            cursor: pointer;
+            color: white;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-link {
+            color: var(--dark-gray);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--teal);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--teal), var(--green));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .user-name {
+            font-weight: 500;
+        }
+
+        .btn-logout {
+            background-color: transparent;
+            border: 1px solid var(--teal);
+            color: var(--teal);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-logout:hover {
+            background-color: var(--teal);
+            color: white;
+        }
+
+        /* Main Content Layout */
+        .main-container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        .video-container {
+            flex: 1;
+            margin-right: 24px;
+        }
+
+        /* Enhanced Video Player */
+        .video-player-container {
+            position: relative;
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            margin-bottom: 20px;
+        }
+
+        .video-player {
+            width: 100%;
+            height: 500px;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            position: relative;
+        }
+
+        .play-button {
+            font-size: 80px;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .play-button:hover {
+            transform: scale(1.1);
+        }
+
+        .video-title-overlay {
+            font-size: 24px;
+            font-weight: 600;
+            text-align: center;
+            max-width: 80%;
+        }
+
+        .video-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .control-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .control-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .control-btn:hover {
+            color: var(--bright-green);
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 5px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            margin: 0 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 35%;
+            background: linear-gradient(90deg, var(--teal), var(--green));
+            border-radius: 5px;
+        }
+
+        .time-display {
+            color: white;
+            font-size: 14px;
+        }
+
+        /* Channel Info Section */
+        .channel-info-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            margin-bottom: 20px;
+        }
+
+        .channel-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--navy-blue), var(--dark-blue));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .channel-details {
+            flex: 1;
+        }
+
+        .channel-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--dark-blue);
+        }
+
+        .channel-stats {
+            display: flex;
+            gap: 15px;
+            font-size: 14px;
+            color: var(--dark-gray);
+        }
+
+        .channel-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .channel-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-subscribe {
+            background: linear-gradient(135deg, var(--teal), var(--green));
+            color: white;
+            border: none;
+        }
+
+        .btn-visit {
+            background-color: transparent;
+            border: 1px solid var(--teal);
+            color: var(--teal);
+        }
+
+        .btn-subscribe:hover, .btn-visit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Video Info */
+        .video-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--dark-blue);
+        }
+
+        .video-actions {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--medium-gray);
+            padding-bottom: 16px;
+            margin-bottom: 16px;
+        }
+
+        .left-actions {
+            display: flex;
+            gap: 16px;
+        }
+
+        .action-button {
+            display: flex;
+            align-items: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--dark-gray);
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .action-button i {
+            margin-right: 6px;
+        }
+
+        .action-button:hover {
+            color: var(--teal);
+        }
+
+        .right-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .share-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--dark-gray);
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+
+        .share-button i {
+            margin-right: 6px;
+        }
+
+        /* Educational Features */
+        .edu-features {
+            background-color: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .feature-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--medium-gray);
+            margin-bottom: 20px;
+        }
+
+        .feature-tab {
+            padding: 12px 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--dark-gray);
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .feature-tab.active {
+            color: var(--teal);
+        }
+
+        .feature-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--teal), var(--green));
+            border-radius: 3px;
+        }
+
+        .feature-content {
+            min-height: 200px;
+        }
+
+        .ask-ai {
+            display: flex;
+            margin-bottom: 16px;
+        }
+
+        .ai-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid var(--medium-gray);
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+        }
+
+        .ai-button {
+            background: linear-gradient(135deg, var(--teal), var(--green));
+            color: white;
+            border: none;
+            padding: 0 20px;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .qa-section, .mcq-section, .resources-section, .chat-section {
+            display: none;
+        }
+
+        .qa-section.active, .mcq-section.active, .resources-section.active, .chat-section.active {
+            display: block;
+        }
+
+        .question {
+            background-color: var(--light-gray);
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .question-user {
+            font-weight: 500;
+        }
+
+        .question-time {
+            color: var(--dark-gray);
+            font-size: 12px;
+        }
+
+        .mcq-options {
+            margin-top: 12px;
+        }
+
+        .mcq-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            padding: 12px;
+            border: 1px solid var(--medium-gray);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .mcq-option:hover {
+            background-color: var(--light-gray);
+        }
+
+        .mcq-option input {
+            margin-right: 8px;
+        }
+
+        .resources-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .resource-item {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            border: 1px solid var(--medium-gray);
+            border-radius: 8px;
+            transition: transform 0.3s;
+        }
+
+        .resource-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .resource-icon {
+            margin-right: 16px;
+            color: var(--teal);
+            font-size: 20px;
+        }
+
+        .resource-info {
+            flex: 1;
+        }
+
+        .resource-name {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .resource-details {
+            color: var(--dark-gray);
+            font-size: 12px;
+        }
+
+        .download-button {
+            background: none;
+            border: none;
+            color: var(--teal);
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .chat-container {
+            height: 300px;
+            border: 1px solid var(--medium-gray);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+            overflow-y: auto;
+            background-color: var(--light-gray);
+        }
+
+        .chat-message {
+            margin-bottom: 16px;
+            padding: 10px;
+            border-radius: 8px;
+            background-color: white;
+        }
+
+        .chat-user {
+            font-weight: 500;
+            color: var(--teal);
+        }
+
+        .chat-input-container {
+            display: flex;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid var(--medium-gray);
+            border-radius: 8px 0 0 8px;
+        }
+
+        .chat-send {
+            background: linear-gradient(135deg, var(--teal), var(--green));
+            color: white;
+            border: none;
+            padding: 0 20px;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+        }
+
+        /* Enhanced Sidebar */
+        .sidebar {
+            width: 400px;
+        }
+
+        .related-videos {
+            background-color: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .sidebar-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--dark-blue);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .related-video {
+            display: flex;
+            margin-bottom: 16px;
+            cursor: pointer;
+            padding: 12px;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .related-video:hover {
+            background-color: var(--light-gray);
+        }
+
+        .related-video-thumbnail {
+            width: 168px;
+            height: 94px;
+            background: linear-gradient(135deg, var(--teal), var(--green));
+            border-radius: 8px;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-duration {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+        }
+
+        .related-video-info {
+            flex: 1;
+        }
+
+        .related-video-title {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 6px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            color: var(--dark-blue);
+        }
+
+        .related-video-channel {
+            font-size: 13px;
+            color: var(--teal);
+            margin-bottom: 4px;
+            font-weight: 500;
+        }
+
+        .related-video-views {
+            font-size: 12px;
+            color: var(--dark-gray);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .main-container {
+                flex-direction: column;
+            }
+            
+            .video-container {
+                margin-right: 0;
+                margin-bottom: 24px;
+            }
+            
+            .sidebar {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .search-container {
+                margin: 0 10px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .video-player {
+                height: 300px;
+            }
+            
+            .video-title-overlay {
+                font-size: 18px;
+            }
+            
+            .play-button {
+                font-size: 60px;
+            }
+        }
+    </style>
+    
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo-container">
+            <div class="logo">
+                <i class="fas fa-graduation-cap logo-icon"></i>
+                <div>
+                    <div class="logo-text">
+                        <span class="logo-edu">EduStream</span><span class="logo-ai">AI</span>
+                    </div>
+                    <div class="tagline">SMART LEARNING STREAMING PLATFORM</div>
+                </div>
+            </div>
+        </div>
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Search educational content...">
+            <button class="search-button"><i class="fas fa-search"></i></button>
+        </div>
+        <div class="header-actions">
+            <div class="nav-links">
+                <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
+                <a href="#" class="nav-link"><i class="fas fa-question-circle"></i> Quiz</a>
+                <a href="#" class="nav-link"><i class="fas fa-book"></i> Study Material</a>
+            </div>
+            <div class="user-profile">
+                <div class="user-avatar">A</div>
+                <div class="user-name">Alex</div>
+                <button class="btn-logout">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Video and Educational Features -->
+        <div class="video-container">
+            <!-- Enhanced Video Player -->
+            <div class="video-player-container">
+                <div class="video-player">
+                    <i class="fas fa-play-circle play-button"></i>
+                    <div class="video-title-overlay">Introduction to Quantum Mechanics - Lecture 1</div>
+                    <div class="video-controls">
+                        <div class="control-buttons">
+                            <button class="control-btn"><i class="fas fa-play"></i></button>
+                            <button class="control-btn"><i class="fas fa-volume-up"></i></button>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress"></div>
+                        </div>
+                        <div class="time-display">12:35 / 45:20</div>
+                        <div class="control-buttons">
+                            <button class="control-btn"><i class="fas fa-expand"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Channel Info Section -->
+            <div class="channel-info-section">
+                <div class="channel-avatar">MS</div>
+                <div class="channel-details">
+                    <div class="channel-name">Math Simplified</div>
+                    <div class="channel-stats">
+                        <span><i class="fas fa-users"></i> 245K Followers</span>
+                        <span><i class="fas fa-video"></i> 128 Videos</span>
+                        <span><i class="fas fa-star"></i> 4.9 Rating</span>
+                    </div>
+                </div>
+                <div class="channel-actions">
+                    <button class="channel-btn btn-subscribe"><i class="fas fa-user-plus"></i> Follow</button>
+                    <button class="channel-btn btn-visit"><i class="fas fa-external-link-alt"></i> Visit Channel</button>
+                </div>
+            </div>
+            
+            <!-- Video Info -->
+            <h1 class="video-title">Introduction to Quantum Mechanics - Lecture 1</h1>
+            
+            <!-- Video Actions -->
+            <div class="video-actions">
+                <div class="left-actions">
+                    <button class="action-button"><i class="far fa-thumbs-up"></i> 1.2K</button>
+                    <button class="action-button"><i class="far fa-thumbs-down"></i> 25</button>
+                    <button class="action-button"><i class="fas fa-share"></i> Share</button>
+                    <button class="action-button"><i class="far fa-bookmark"></i> Save</button>
+                </div>
+                <div class="right-actions">
+                    <button class="share-button"><i class="fas fa-plus"></i> Add to Playlist</button>
+                </div>
+            </div>
+            
+            <!-- Educational Features -->
+            <div class="edu-features">
+                <div class="feature-tabs">
+                    <button class="feature-tab active" data-tab="qa">Ask AI</button>
+                    <button class="feature-tab" data-tab="mcq">Multiple Choice</button>
+                    <button class="feature-tab" data-tab="resources">Study Material</button>
+                    <!-- <button class="feature-tab" data-tab="chat">Live Chat</button> -->
+                </div>
+                
+                <div class="feature-content">
+                    <!-- Q&A Section -->
+                    <div class="qa-section active">
+                        <div class="ask-ai">
+                            <input type="text" class="ai-input" placeholder="Ask AI about this lecture...">
+                            <button class="ai-button"><i class="fas fa-robot"></i> Ask AI</button>
+                        </div>
+                        
+                        <div class="question">
+                            <div class="question-header">
+                                <div class="question-user">Rahul Sharma</div>
+                                <div class="question-time">2 hours ago</div>
+                            </div>
+                            <div class="question-text">Can someone explain the concept of wave-particle duality in simple terms?</div>
+                        </div>
+                        
+                        <div class="question">
+                            <div class="question-header">
+                                <div class="question-user">Priya Patel</div>
+                                <div class="question-time">5 hours ago</div>
+                            </div>
+                            <div class="question-text">What's the difference between quantum superposition and quantum entanglement?</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Multiple Choice Section -->
+                    <div class="mcq-section">
+                        <h3>Test Your Understanding</h3>
+                        <p>Which of the following best describes the Heisenberg Uncertainty Principle?</p>
+                        
+                        <div class="mcq-options">
+                            <label class="mcq-option">
+                                <input type="radio" name="mcq" value="1">
+                                It's impossible to know both the position and momentum of a particle simultaneously with absolute precision
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="mcq" value="2">
+                                Quantum particles can exist in multiple states at once
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="mcq" value="3">
+                                Energy is quantized and comes in discrete packets
+                            </label>
+                            <label class="mcq-option">
+                                <input type="radio" name="mcq" value="4">
+                                The act of observation affects the system being observed
+                            </label>
+                        </div>
+                        
+                        <button style="margin-top: 12px; padding: 10px 20px; background: linear-gradient(135deg, var(--teal), var(--green)); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 500;">Submit Answer</button>
+                    </div>
+                    
+                    <!-- Resources Section -->
+                    <div class="resources-section">
+                        <div class="resources-list">
+                            <div class="resource-item">
+                                <div class="resource-icon"><i class="fas fa-file-pdf"></i></div>
+                                <div class="resource-info">
+                                    <div class="resource-name">Quantum Mechanics Lecture Notes</div>
+                                    <div class="resource-details">PDF • 2.4 MB • 45 pages</div>
+                                </div>
+                                <button class="download-button"><i class="fas fa-download"></i> Download</button>
+                            </div>
+                            
+                            <div class="resource-item">
+                                <div class="resource-icon"><i class="fas fa-file-pdf"></i></div>
+                                <div class="resource-info">
+                                    <div class="resource-name">Practice Problems with Solutions</div>
+                                    <div class="resource-details">PDF • 1.8 MB • 32 pages</div>
+                                </div>
+                                <button class="download-button"><i class="fas fa-download"></i> Download</button>
+                            </div>
+                            
+                            <div class="resource-item">
+                                <div class="resource-icon"><i class="fas fa-file-pdf"></i></div>
+                                <div class="resource-info">
+                                    <div class="resource-name">Important Formulas Sheet</div>
+                                    <div class="resource-details">PDF • 0.9 MB • 12 pages</div>
+                                </div>
+                                <button class="download-button"><i class="fas fa-download"></i> Download</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Live Chat Section
+                    <div class="chat-section">
+                        <div class="chat-container">
+                            <div class="chat-message">
+                                <span class="chat-user">Instructor:</span> Welcome everyone to today's lecture on Quantum Mechanics!
+                            </div>
+                            <div class="chat-message">
+                                <span class="chat-user">Student1:</span> Could you please explain Schrödinger's equation again?
+                            </div>
+                            <div class="chat-message">
+                                <span class="chat-user">Instructor:</span> Sure! It's a fundamental equation that describes how the quantum state of a physical system changes with time.
+                            </div>
+                            <div class="chat-message">
+                                <span class="chat-user">Student2:</span> Are we having a quiz next week?
+                            </div>
+                            <div class="chat-message">
+                                <span class="chat-user">Instructor:</span> Yes, there will be a quiz covering the first three chapters.
+                            </div>
+                        </div>
+                        
+                        <div class="chat-input-container">
+                            <input type="text" class="chat-input" placeholder="Type your message...">
+                            <button class="chat-send">Send</button>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Enhanced Sidebar with Related Videos -->
+        <div class="sidebar">
+            <div class="related-videos">
+                <h3 class="sidebar-title"><i class="fas fa-play-circle"></i> Related Videos</h3>
+                
+                <div class="related-video">
+                    <div class="related-video-thumbnail">
+                        Thumbnail
+                        <div class="video-duration">18:42</div>
+                    </div>
+                    <div class="related-video-info">
+                        <div class="related-video-title">Quantum Mechanics Lecture 2: Wave Functions</div>
+                        <div class="related-video-channel">Physics Department</div>
+                        <div class="related-video-views">45K views • 2 weeks ago</div>
+                    </div>
+                </div>
+                
+                <div class="related-video">
+                    <div class="related-video-thumbnail">
+                        Thumbnail
+                        <div class="video-duration">24:15</div>
+                    </div>
+                    <div class="related-video-info">
+                        <div class="related-video-title">Schrödinger Equation Explained</div>
+                        <div class="related-video-channel">Quantum Physics Channel</div>
+                        <div class="related-video-views">128K views • 1 month ago</div>
+                    </div>
+                </div>
+                
+                <div class="related-video">
+                    <div class="related-video-thumbnail">
+                        Thumbnail
+                        <div class="video-duration">15:30</div>
+                    </div>
+                    <div class="related-video-info">
+                        <div class="related-video-title">Heisenberg Uncertainty Principle</div>
+                        <div class="related-video-channel">Science Simplified</div>
+                        <div class="related-video-views">89K views • 3 weeks ago</div>
+                    </div>
+                </div>
+                
+                <div class="related-video">
+                    <div class="related-video-thumbnail">
+                        Thumbnail
+                        <div class="video-duration">22:10</div>
+                    </div>
+                    <div class="related-video-info">
+                        <div class="related-video-title">Quantum Superposition and Entanglement</div>
+                        <div class="related-video-channel">Advanced Physics</div>
+                        <div class="related-video-views">67K views • 1 month ago</div>
+                    </div>
+                </div>
+                
+                <div class="related-video">
+                    <div class="related-video-thumbnail">
+                        Thumbnail
+                        <div class="video-duration">19:45</div>
+                    </div>
+                    <div class="related-video-info">
+                        <div class="related-video-title">Applications of Quantum Computing</div>
+                        <div class="related-video-channel">Tech Innovations</div>
+                        <div class="related-video-views">156K views • 2 months ago</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching functionality
+        document.querySelectorAll('.feature-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and sections
+                document.querySelectorAll('.feature-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.qa-section, .mcq-section, .resources-section, .chat-section').forEach(s => s.classList.remove('active'));
+                
+                // Add active class to clicked tab
+                tab.classList.add('active');
+                
+                // Show corresponding section
+                const tabId = tab.getAttribute('data-tab');
+                document.querySelector(`.${tabId}-section`).classList.add('active');
+            });
+        });
+
+        // Simulate asking AI
+        document.querySelector('.ai-button').addEventListener('click', () => {
+            const aiInput = document.querySelector('.ai-input');
+            if (aiInput.value.trim() !== '') {
+                alert('AI is processing your question...');
+                aiInput.value = '';
+            }
+        });
+
+        // Simulate sending a chat message
+        document.querySelector('.chat-send').addEventListener('click', () => {
+            const chatInput = document.querySelector('.chat-input');
+            if (chatInput.value.trim() !== '') {
+                alert('Message sent!');
+                chatInput.value = '';
+            }
+        });
+
+        // Play button functionality
+        document.querySelector('.play-button').addEventListener('click', function() {
+            this.classList.toggle('fa-play-circle');
+            this.classList.toggle('fa-pause-circle');
+            alert('Video playback ' + (this.classList.contains('fa-pause-circle') ? 'started' : 'paused'));
+        });
+
+        // Subscribe button functionality
+        document.querySelector('.btn-subscribe').addEventListener('click', function() {
+            if (this.textContent.includes('Subscribe')) {
+                this.innerHTML = '<i class="fas fa-check"></i> Following';
+                this.style.background = 'var(--light-gray)';
+                this.style.color = 'var(--dark-gray)';
+            } else {
+                this.innerHTML = '<i class="fas fa-user-plus"></i> Follow';
+                this.style.background = 'linear-gradient(135deg, var(--teal), var(--green))';
+                this.style.color = 'white';
+            }
+        });
+
+        // Logout functionality
+        document.querySelector('.btn-logout').addEventListener('click', function() {
+            if (confirm('Are you sure you want to logout?')) {
+                window.location.href = 'index.html';
+            }
+        });
+
+    </script>
+    <script src="camera-widget.js"></script>
+<script>
+// You can control the widget programmatically
+const widget = initCameraWidget();
+
+// To destroy the widget later
+// widget.destroy();
+</script>
+</body>
+</html>
+
+

@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutor Studio - EduStreamAI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --navy-blue: #003366;
+            --dark-blue: #002B5B;
+            --teal: #0099CC;
+            --green: #00CC66;
+            --bright-green: #00C853;
+            --white: #FFFFFF;
+            --light-gray: #f5f5f5;
+            --medium-gray: #e5e5e5;
+            --dark-gray: #606060;
+            --sidebar-width: 280px;
+            --header-height: 70px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: linear-gradient(180deg, var(--navy-blue), var(--dark-blue));
+            color: white;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+        }
+
+        .logo-container {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            font-size: 28px;
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .logo-edu { color: white; }
+        .logo-ai { color: var(--bright-green); }
+
+        .tagline {
+            font-size: 11px;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+
+        .studio-title {
+            padding: 20px;
+            font-size: 18px;
+            font-weight: 600;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-section {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-title {
+            padding: 0 20px 10px;
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0.7;
+            text-transform: uppercase;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-left: 4px solid var(--bright-green);
+        }
+
+        .nav-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+        }
+
+        /* Header */
+        .header {
+            height: var(--header-height);
+            background-color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            flex: 0 1 500px;
+        }
+
+        .search-input {
+            height: 40px;
+            flex: 1;
+            padding: 0 15px;
+            font-size: 14px;
+            border: 1px solid var(--medium-gray);
+            border-radius: 20px 0 0 20px;
+        }
+
+        .search-button {
+            height: 40px;
+            width: 50px;
+            background: linear-gradient(135deg, var(--teal), var(--green));
+            border: none;
+            border-radius: 0 20px 20px 0;
+            cursor: pointer;
+            color: white;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--teal), var(--green));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* Content Area */
+        .content {
+            padding: 30px;
+        }
+
+        .welcome-banner {
+            background: linear-gradient(135deg, var(--teal), var(--green));
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: between;
+            align-items: center;
+        }
+
+        .welcome-text h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .welcome-text p {
+            opacity: 0.9;
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .action-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .action-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Dashboard Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--teal), var(--green));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .stat-info h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: var(--dark-blue);
+        }
+
+        .stat-info p {
+            color: var(--dark-gray);
+            font-size: 14px;
+        }
+
+        /* Analytics Section */
+        .analytics-section {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--dark-blue);
+        }
+
+        .chart-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+
+        .main-chart {
+            height: 300px;
+        }
+
+        .side-charts {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .mini-chart {
+            height: 140px;
+            background: var(--light-gray);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Content Management */
+        .content-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--medium-gray);
+            margin-bottom: 20px;
+        }
+
+        .content-tab {
+            padding: 12px 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--dark-gray);
+            position: relative;
+        }
+
+        .content-tab.active {
+            color: var(--teal);
+        }
+
+        .content-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--teal), var(--green));
+        }
+
+        .upload-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .upload-option {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .upload-option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .upload-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--teal), var(--green));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            margin: 0 auto 15px;
+        }
+
+        .upload-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--dark-blue);
+        }
+
+        .upload-desc {
+            font-size: 13px;
+            color: var(--dark-gray);
+        }
+
+        /* Recent Content */
+        .content-table {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .table-header {
+            display: grid;
+            grid-template-columns: 3fr 1fr 1fr 1fr 1fr;
+            padding: 15px 20px;
+            background: var(--light-gray);
+            font-weight: 600;
+            color: var(--dark-blue);
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 3fr 1fr 1fr 1fr 1fr;
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--medium-gray);
+            align-items: center;
+        }
+
+        .table-row:last-child {
+            border-bottom: none;
+        }
+
+        .content-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .content-thumbnail {
+            width: 60px;
+            height: 40px;
+            border-radius: 6px;
+            background: linear-gradient(135deg, var(--teal), var(--green));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+        }
+
+        .content-title {
+            font-weight: 500;
+            color: var(--dark-blue);
+        }
+
+        .content-type {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .type-video { background: #e3f2fd; color: #1976d2; }
+        .type-live { background: #ffebee; color: #d32f2f; }
+        .type-post { background: #f3e5f5; color: #7b1fa2; }
+
+        .status {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-published { background: #e8f5e9; color: #2e7d32; }
+        .status-draft { background: #fff3e0; color: #ef6c00; }
+        .status-processing { background: #e3f2fd; color: #1976d2; }
+
+        .action-menu {
+            background: none;
+            border: none;
+            color: var(--dark-gray);
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--dark-blue);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--dark-gray);
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--medium-gray);
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .file-upload {
+            border: 2px dashed var(--medium-gray);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .file-upload:hover {
+            border-color: var(--teal);
+        }
+
+        .file-upload i {
+            font-size: 40px;
+            color: var(--teal);
+            margin-bottom: 10px;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--teal), var(--green));
+            color: white;
+            border: none;
+        }
+
+        .btn-secondary {
+            background: var(--light-gray);
+            color: var(--dark-gray);
+            border: none;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 80px;
+            }
+            
+            .sidebar .logo-text, .sidebar .tagline, .sidebar .nav-title, .sidebar .nav-item span {
+                display: none;
+            }
+            
+            .main-content {
+                margin-left: 80px;
+            }
+            
+            .chart-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .upload-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .table-header, .table-row {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .welcome-banner {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo-container">
+            <div class="logo">
+                <i class="fas fa-graduation-cap logo-icon"></i>
+                <div>
+                    <div class="logo-text">
+                        <span class="logo-edu">EduStream</span><span class="logo-ai">AI</span>
+                    </div>
+                    <div class="tagline">TUTOR STUDIO</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="studio-title">Creator Studio</div>
+        
+        <div class="nav-section">
+            <div class="nav-title">Dashboard</div>
+            <a href="#" class="nav-item active">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Analytics</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-comments"></i>
+                <span>Comments</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-play-circle"></i>
+                <span>Subtitles</span>
+            </a>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-title">Content</div>
+            <a href="#" class="nav-item">
+                <i class="fas fa-upload"></i>
+                <span>Upload Video</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-broadcast-tower"></i>
+                <span>Go Live</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-pencil-alt"></i>
+                <span>Posts</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-list"></i>
+                <span>Playlists</span>
+            </a>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-title">Monetization</div>
+            <a href="#" class="nav-item">
+                <i class="fas fa-dollar-sign"></i>
+                <span>Revenue</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Analytics</span>
+            </a>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-title">Settings</div>
+            <a href="#" class="nav-item">
+                <i class="fas fa-cog"></i>
+                <span>Channel</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-user"></i>
+                <span>Permissions</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-bell"></i>
+                <span>Notifications</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Search your content...">
+                <button class="search-button"><i class="fas fa-search"></i></button>
+            </div>
+            <div class="header-actions">
+                <div class="user-profile">
+                    <div class="user-avatar">MS</div>
+                    <div>Math Simplified</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Area -->
+        <div class="content">
+            <!-- Welcome Banner -->
+            <div class="welcome-banner">
+                <div class="welcome-text">
+                    <h1>Welcome back, Dr. Michael Stevens!</h1>
+                    <p>Your channel is performing well with 245K Followers and 12.5M views</p>
+                </div>
+                <div class="quick-actions">
+                    <button class="action-btn" id="uploadVideoBtn">
+                        <i class="fas fa-upload"></i> Upload Video
+                    </button>
+                    <button class="action-btn" id="goLiveBtn">
+                        <i class="fas fa-broadcast-tower"></i> Go Live
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>245.7K</h3>
+                        <p>Views (Last 28 days)</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>+5,247</h3>
+                        <p>New Followers</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>1,245 hrs</h3>
+                        <p>Watch Time</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-inr"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>₹2,847</h3>
+                        <p>Revenue (This month)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Section -->
+            <div class="analytics-section">
+                <div class="section-header">
+                    <h2 class="section-title">Channel Analytics</h2>
+                    <div>
+                        <select class="form-select" style="width: 150px;">
+                            <option>Last 28 days</option>
+                            <option>Last 7 days</option>
+                            <option>Last 90 days</option>
+                            <option>This year</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <div class="main-chart">
+                        <canvas id="viewsChart"></canvas>
+                    </div>
+                    <div class="side-charts">
+                        <div class="mini-chart">
+                            <canvas id="trafficChart"></canvas>
+                        </div>
+                        <div class="mini-chart">
+                            <canvas id="deviceChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Management -->
+            <div class="analytics-section">
+                <div class="section-header">
+                    <h2 class="section-title">Content Management</h2>
+                </div>
+                
+                <div class="content-tabs">
+                    <button class="content-tab active">Upload Options</button>
+                    <button class="content-tab">Recent Content</button>
+                    <button class="content-tab">Scheduled</button>
+                </div>
+
+                <div class="upload-options">
+                    <div class="upload-option" data-type="video">
+                        <div class="upload-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <div class="upload-title">Upload Video</div>
+                        <div class="upload-desc">Share educational videos with your students</div>
+                    </div>
+                    
+                    <div class="upload-option" data-type="live">
+                        <div class="upload-icon">
+                            <i class="fas fa-broadcast-tower"></i>
+                        </div>
+                        <div class="upload-title">Go Live</div>
+                        <div class="upload-desc">Interactive live streaming sessions</div>
+                    </div>
+                    
+                    <div class="upload-option" data-type="post">
+                        <div class="upload-icon">
+                            <i class="fas fa-pencil-alt"></i>
+                        </div>
+                        <div class="upload-title">Create Post</div>
+                        <div class="upload-desc">Text, image, poll or announcement</div>
+                    </div>
+                    
+                    <div class="upload-option" data-type="course">
+                        <div class="upload-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="upload-title">Paid Course</div>
+                        <div class="upload-desc">Create premium educational content</div>
+                    </div>
+                </div>
+
+                <div class="content-table">
+                    <div class="table-header">
+                        <div>Content</div>
+                        <div>Type</div>
+                        <div>Visibility</div>
+                        <div>Date</div>
+                        <div>Actions</div>
+                    </div>
+                    
+                    <div class="table-row">
+                        <div class="content-item">
+                            <div class="content-thumbnail">Thumb</div>
+                            <div class="content-title">Introduction to Quantum Mechanics</div>
+                        </div>
+                        <div><span class="content-type type-video">Video</span></div>
+                        <div><span class="status status-published">Public</span></div>
+                        <div>2 days ago</div>
+                        <div><button class="action-menu"><i class="fas fa-ellipsis-v"></i></button></div>
+                    </div>
+                    
+                    <div class="table-row">
+                        <div class="content-item">
+                            <div class="content-thumbnail">Live</div>
+                            <div class="content-title">Calculus Q&A Session</div>
+                        </div>
+                        <div><span class="content-type type-live">Live</span></div>
+                        <div><span class="status status-published">Public</span></div>
+                        <div>5 days ago</div>
+                        <div><button class="action-menu"><i class="fas fa-ellipsis-v"></i></button></div>
+                    </div>
+                    
+                    <div class="table-row">
+                        <div class="content-item">
+                            <div class="content-thumbnail">Post</div>
+                            <div class="content-title">Weekly Math Challenge</div>
+                        </div>
+                        <div><span class="content-type type-post">Post</span></div>
+                        <div><span class="status status-draft">Draft</span></div>
+                        <div>1 week ago</div>
+                        <div><button class="action-menu"><i class="fas fa-ellipsis-v"></i></button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload Video Modal -->
+    <div class="modal" id="uploadVideoModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Upload Video</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="file-upload">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <h3>Select video files to upload</h3>
+                    <p>or drag and drop video files</p>
+                    <button class="btn btn-primary" style="margin-top: 15px;">Select Files</button>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Title</label>
+                    <input type="text" class="form-input" placeholder="Enter video title">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Description</label>
+                    <textarea class="form-textarea" placeholder="Enter video description"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Thumbnail</label>
+                    <div class="file-upload">
+                        <i class="fas fa-image"></i>
+                        <p>Upload thumbnail image</p>
+                        <button class="btn btn-secondary" style="margin-top: 10px;">Select Thumbnail</button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Visibility</label>
+                    <select class="form-select">
+                        <option>Public</option>
+                        <option>Unlisted</option>
+                        <option>Private</option>
+                        <option>Scheduled</option>
+                    </select>
+                </div>
+                
+                <div class="form-actions">
+                    <button class="btn btn-secondary">Cancel</button>
+                    <button class="btn btn-primary">Upload</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Go Live Modal -->
+    <div class="modal" id="goLiveModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Go Live</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Stream Title</label>
+                    <input type="text" class="form-input" placeholder="Enter stream title">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Description</label>
+                    <textarea class="form-textarea" placeholder="Enter stream description"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Category</label>
+                    <select class="form-select">
+                        <option>Education</option>
+                        <option>Science & Technology</option>
+                        <option>Howto & Style</option>
+                        <option>Gaming</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Visibility</label>
+                    <select class="form-select">
+                        <option>Public</option>
+                        <option>Unlisted</option>
+                        <option>Private</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Stream Settings</label>
+                    <div style="background: var(--light-gray); padding: 15px; border-radius: 8px;">
+                        <p><strong>Stream URL:</strong> rtmp://edustreamai.com/live</p>
+                        <p><strong>Stream Key:</strong> ms_245k_live_2024</p>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button class="btn btn-secondary">Cancel</button>
+                    <button class="btn btn-primary">Start Streaming</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Modal functionality
+        document.getElementById('uploadVideoBtn').addEventListener('click', function() {
+            document.getElementById('uploadVideoModal').style.display = 'flex';
+        });
+        
+        document.getElementById('goLiveBtn').addEventListener('click', function() {
+            document.getElementById('goLiveModal').style.display = 'flex';
+        });
+        
+        document.querySelectorAll('.close-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.closest('.modal').style.display = 'none';
+            });
+        });
+        
+        document.querySelectorAll('.upload-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const type = this.getAttribute('data-type');
+                if (type === 'video') {
+                    document.getElementById('uploadVideoModal').style.display = 'flex';
+                } else if (type === 'live') {
+                    document.getElementById('goLiveModal').style.display = 'flex';
+                } else {
+                    alert(`Create ${type} functionality would open here`);
+                }
+            });
+        });
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal')) {
+                e.target.style.display = 'none';
+            }
+        });
+        
+        // Charts
+        const viewsCtx = document.getElementById('viewsChart').getContext('2d');
+        const viewsChart = new Chart(viewsCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+                datasets: [{
+                    label: 'Views',
+                    data: [12000, 19000, 15000, 25000, 22000, 30000, 28000],
+                    borderColor: '#0099CC',
+                    backgroundColor: 'rgba(0, 153, 204, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }, {
+                    label: 'Watch Time (hours)',
+                    data: [800, 1200, 1000, 1600, 1400, 1800, 1700],
+                    borderColor: '#00CC66',
+                    backgroundColor: 'rgba(0, 204, 102, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                }
+            }
+        });
+        
+        const trafficCtx = document.getElementById('trafficChart').getContext('2d');
+        const trafficChart = new Chart(trafficCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['YouTube', 'Website', 'Social Media', 'Direct'],
+                datasets: [{
+                    data: [45, 25, 20, 10],
+                    backgroundColor: [
+                        '#0099CC',
+                        '#00CC66',
+                        '#003366',
+                        '#002B5B'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    }
+                }
+            }
+        });
+        
+        const deviceCtx = document.getElementById('deviceChart').getContext('2d');
+        const deviceChart = new Chart(deviceCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Mobile', 'Desktop', 'Tablet'],
+                datasets: [{
+                    label: 'Devices',
+                    data: [65, 25, 10],
+                    backgroundColor: [
+                        '#0099CC',
+                        '#00CC66',
+                        '#003366'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

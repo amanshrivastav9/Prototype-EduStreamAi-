@@ -1,0 +1,1774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduStreamAI - SMART LEARNING STREAMING PLATFORM</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', Arial, sans-serif;
+        }
+
+        :root {
+            --navy-blue: #003366;
+            --dark-blue: #002B5B;
+            --teal: #0099CC;
+            --green: #00CC66;
+            --bright-green: #00C853;
+            --white: #FFFFFF;
+            --light-gray: #f5f5f5;
+            --medium-gray: #e5e5e5;
+            --dark-gray: #606060;
+        }
+
+        body {
+            background-color: var(--light-gray);
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* Header Styles */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            height: 70px;
+            background-color: var(--white);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-icon {
+            font-size: 32px;
+            color: var(--navy-blue);
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .logo-edu {
+            color: var(--dark-blue);
+        }
+
+        .logo-ai {
+            color: var(--bright-green);
+        }
+
+        .tagline {
+            font-size: 12px;
+            color: var(--dark-gray);
+            margin-top: -5px;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            flex: 0 1 728px;
+            margin: 0 40px;
+        }
+
+        .search-input {
+            height: 40px;
+            flex: 1;
+            padding: 0 12px;
+            font-size: 16px;
+            border: 1px solid var(--medium-gray);
+            border-radius: 20px 0 0 20px;
+            max-width: 575px;
+        }
+
+        .search-button {
+            height: 40px;
+            width: 64px;
+            background: linear-gradient(135deg, var(--teal), var(--green));
+            border: none;
+            border-radius: 0 20px 20px 0;
+            cursor: pointer;
+            color: white;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-login {
+            background-color: transparent;
+            border: 1px solid var(--teal);
+            color: var(--teal);
+        }
+
+        .btn-register {
+            background: linear-gradient(135deg, var(--teal), var(--green));
+            border: none;
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--teal), var(--green));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .user-name {
+            font-weight: 500;
+        }
+
+        /* Main Content Layout */
+        .main-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 240px;
+            background-color: var(--white);
+            overflow-y: auto;
+            padding: 12px 0;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar.collapsed {
+            width: 70px;
+        }
+
+        .sidebar-toggle {
+            display: flex;
+            justify-content: flex-end;
+            padding: 8px 16px;
+            margin-bottom: 10px;
+        }
+
+        .toggle-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: var(--dark-gray);
+            cursor: pointer;
+        }
+
+        .sidebar-section {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+
+        .sidebar-title {
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--dark-gray);
+            text-transform: uppercase;
+        }
+
+        .sidebar.collapsed .sidebar-title {
+            display: none;
+        }
+
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 16px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #030303;
+            transition: all 0.2s;
+        }
+
+        .sidebar-item:hover {
+            background-color: var(--light-gray);
+        }
+
+        .sidebar-item.active {
+            background-color: var(--medium-gray);
+            font-weight: 500;
+            border-left: 4px solid var(--teal);
+        }
+
+        .sidebar-item i {
+            margin-right: 16px;
+            width: 24px;
+            text-align: center;
+            color: var(--dark-gray);
+            flex-shrink: 0;
+        }
+
+        .sidebar.collapsed .sidebar-item span {
+            display: none;
+        }
+
+        .sidebar.collapsed .sidebar-item i {
+            margin-right: 0;
+        }
+
+        .sidebar-item.active i {
+            color: var(--teal);
+        }
+
+        .sidebar-subitem {
+            padding-left: 40px;
+            font-size: 13px;
+            display: none;
+        }
+
+        .sidebar-subitem.active {
+            display: block;
+        }
+
+        /* Content Area */
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+        }
+
+        .banner {
+            background: linear-gradient(135deg, var(--teal), var(--green));
+            color: white;
+            padding: 24px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+        }
+
+        .banner h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .banner p {
+            font-size: 16px;
+            margin-bottom: 16px;
+            opacity: 0.9;
+        }
+
+        .banner-button {
+            background-color: white;
+            color: var(--teal);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 500;
+            margin: 24px 0 16px;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 16px;
+        }
+
+        .video-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .video-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .video-thumbnail {
+            width: 100%;
+            height: 180px;
+            background-color: var(--medium-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark-gray);
+            position: relative;
+        }
+
+        .video-duration {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .video-info {
+            padding: 12px;
+        }
+
+        .video-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .video-meta {
+            display: flex;
+            color: var(--dark-gray);
+            font-size: 14px;
+        }
+
+        .video-channel {
+            margin-right: 12px;
+        }
+
+        .video-views::before {
+            content: "•";
+            margin: 0 4px;
+        }
+
+        .category-tabs {
+            display: flex;
+            overflow-x: auto;
+            padding: 12px 0;
+            margin-bottom: 16px;
+            gap: 12px;
+        }
+
+        .category-tab {
+            background-color: #f2f2f2;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 16px;
+            font-size: 14px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .category-tab.active {
+            background-color: var(--dark-blue);
+            color: white;
+        }
+
+        /* Teacher Profile */
+        /* .teacher-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding: 15px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .teacher-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--teal), var(--green));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .teacher-info {
+            flex: 1;
+        }
+
+        .teacher-name {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .teacher-stats {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: var(--dark-gray);
+        }
+
+        .teacher-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .teacher-btn {
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-follow {
+            background: linear-gradient(135deg, var(--teal), var(--green));
+            color: white;
+            border: none;
+        }
+
+        .btn-view {
+            background-color: transparent;
+            border: 1px solid var(--teal);
+            color: var(--teal);
+        } */
+
+
+        /* Horizontal Channel Container */
+    .channels-section {
+        margin: 30px 0;
+    }
+
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    .section-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: var(--dark-blue);
+    }
+
+    .view-all {
+        color: var(--teal);
+        text-decoration: none;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 14px;
+    }
+
+    .channels-scroll-container {
+        position: relative;
+    }
+
+    .channels-scroll {
+        display: flex;
+        gap: 15px;
+        overflow-x: auto;
+        padding: 10px 5px;
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+    }
+
+    .channels-scroll::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    .channels-scroll::-webkit-scrollbar-track {
+        background: var(--light-gray);
+        border-radius: 10px;
+    }
+
+    .channels-scroll::-webkit-scrollbar-thumb {
+        background: var(--teal);
+        border-radius: 10px;
+    }
+
+    .scroll-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: white;
+        border: none;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--teal);
+        font-size: 16px;
+        z-index: 10;
+        transition: all 0.3s ease;
+    }
+
+    .scroll-btn:hover {
+        background: var(--teal);
+        color: white;
+        transform: translateY(-50%) scale(1.1);
+    }
+
+    .scroll-left {
+        left: -20px;
+    }
+
+    .scroll-right {
+        right: -20px;
+    }
+
+    .channel-card-compact {
+        flex: 0 0 200px;
+        background: white;
+        border-radius: 12px;
+        padding: 15px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .channel-card-compact:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+    }
+
+    .channel-avatar-compact {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--navy-blue), var(--dark-blue));
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 12px;
+        border: 3px solid white;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .channel-info-compact {
+        width: 100%;
+    }
+
+    .channel-name-compact {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--dark-blue);
+        margin-bottom: 5px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .channel-subject-compact {
+        font-size: 12px;
+        color: var(--teal);
+        margin-bottom: 10px;
+        font-weight: 500;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .channel-stats-compact {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 12px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--light-gray);
+    }
+
+    .stat-compact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .stat-value-compact {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--dark-blue);
+    }
+
+    .stat-label-compact {
+        font-size: 10px;
+        color: var(--dark-gray);
+        margin-top: 2px;
+    }
+
+    .channel-actions-compact {
+        display: flex;
+        gap: 8px;
+        width: 100%;
+    }
+
+    .channel-btn-compact {
+        flex: 1;
+        padding: 6px 8px;
+        border-radius: 6px;
+        font-size: 11px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    .btn-follow-compact {
+        background: linear-gradient(135deg, var(--teal), var(--green));
+        color: white;
+        border: none;
+    }
+
+    .btn-follow-compact.following {
+        background: var(--light-gray);
+        color: var(--dark-gray);
+    }
+
+    .btn-view-compact {
+        background-color: transparent;
+        border: 1px solid var(--teal);
+        color: var(--teal);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .btn-follow-compact:hover {
+        transform: translateY(-1px);
+    }
+
+    .btn-view-compact:hover {
+        background-color: var(--teal);
+        color: white;
+    }
+
+    /* Hide scroll buttons on mobile */
+    @media (max-width: 768px) {
+        .scroll-btn {
+            display: none;
+        }
+        
+        .channel-card-compact {
+            flex: 0 0 180px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .channel-card-compact {
+            flex: 0 0 160px;
+            padding: 12px;
+        }
+        
+        .channel-avatar-compact {
+            width: 50px;
+            height: 50px;
+            font-size: 16px;
+        }
+    }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--dark-blue);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--dark-gray);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--medium-gray);
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--medium-gray);
+            border-radius: 4px;
+            font-size: 16px;
+            background-color: white;
+        }
+
+        .captcha-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .captcha-code {
+            font-family: 'Courier New', monospace;
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 5px;
+            background-color: var(--light-gray);
+            padding: 10px;
+            border-radius: 4px;
+            flex: 1;
+            text-align: center;
+        }
+
+        .refresh-captcha {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--teal);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, var(--teal), var(--green));
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .form-link {
+            color: var(--teal);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                left: -240px;
+                height: 100%;
+                z-index: 99;
+            }
+            
+            .sidebar.active {
+                left: 0;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .search-container {
+                margin: 0 10px;
+            }
+            
+            .auth-buttons {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo-container">
+            <button class="mobile-menu-btn toggle-btn" style="display: none;">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="logo">
+                <i class="fas fa-graduation-cap logo-icon"></i>
+                <div>
+                    <div class="logo-text">
+                        <span class="logo-edu">EduStream</span><span class="logo-ai">AI</span>
+                    </div>
+                    <div class="tagline">SMART LEARNING STREAMING PLATFORM</div>
+                </div>
+            </div>
+        </div>
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Search educational content...">
+            <button class="search-button"><i class="fas fa-search"></i></button>
+        </div>
+        <div class="header-actions">
+            <div class="auth-buttons" id="authButtons">
+                <button class="btn btn-login" id="loginBtn">Login</button>
+                <button class="btn btn-register" id="registerBtn">Register</button>
+            </div>
+            <div class="user-profile" id="userProfile" style="display: none;">
+                <div class="user-avatar">A</div>
+                <div class="user-name">Alex</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-toggle">
+                <button class="toggle-btn" id="sidebarToggle">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+            </div>
+            <div class="sidebar-section">
+                <div class="sidebar-item active">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </div>
+                <div class="sidebar-item">
+                    <i class="fas fa-book-open"></i>
+                    <span>Courses</span>
+                </div>
+                <div class="sidebar-item">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <span>Curriculum</span>
+                </div>
+                <div class="sidebar-item">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>My Learning</span>
+                </div>
+                <div class="sidebar-item">
+                    <i class="fas fa-bookmark"></i>
+                    <span>Bookmarks</span>
+                </div>
+                <div class="sidebar-item">
+                    <i class="fas fa-folder-open"></i>
+                    <span>Resources</span>
+                </div>
+                <div class="sidebar-item">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Help & Support</span>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">School Education</div>
+                <div class="sidebar-item" data-target="class1to10">
+                    <i class="fas fa-school"></i>
+                    <span>Class 1-10</span>
+                </div>
+                <div class="sidebar-subitem" id="class1to10">
+                    <div class="sidebar-item">Class 1-5</div>
+                    <div class="sidebar-item">Class 6-8</div>
+                    <div class="sidebar-item">Class 9-10</div>
+                </div>
+                <div class="sidebar-item" data-target="class11to12">
+                    <i class="fas fa-university"></i>
+                    <span>Class 11-12</span>
+                </div>
+                <div class="sidebar-subitem" id="class11to12">
+                    <div class="sidebar-item">Science</div>
+                    <div class="sidebar-item">Commerce</div>
+                    <div class="sidebar-item">Arts</div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">Competitive Exams</div>
+                <div class="sidebar-item">
+                    <i class="fas fa-trophy"></i>
+                    <span>Engineering</span>
+                </div>
+                <div class="sidebar-item">
+                    <i class="fas fa-stethoscope"></i>
+                    <span>Medical</span>
+                </div>
+                <div class="sidebar-item">
+                    <i class="fas fa-gavel"></i>
+                    <span>Law</span>
+                </div>
+                <div class="sidebar-item">
+                    <i class="fas fa-landmark"></i>
+                    <span>Civil Services</span>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">Graduation</div>
+                <div class="sidebar-item">
+                    <i class="fas fa-laptop-code"></i>
+                    <span>BCA</span>
+                </div>
+                <div class="sidebar-item">
+                    <i class="fas fa-chart-line"></i>
+                    <span>B.Com</span>
+                </div>
+                <div class="sidebar-item">
+                    <i class="fas fa-flask"></i>
+                    <span>B.Sc</span>
+                </div>
+                <div class="sidebar-item">
+                    <i class="fas fa-palette"></i>
+                    <span>BA</span>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">Post Graduation</div>
+                <div class="sidebar-item">
+                    <i class="fas fa-laptop-code"></i>
+                    <span>MCA</span>
+                </div>
+                <div class="sidebar-item">
+                    <i class="fas fa-chart-line"></i>
+                    <span>M.Com</span>
+                </div>
+                <div class="sidebar-item">
+                    <i class="fas fa-flask"></i>
+                    <span>M.Sc</span>
+                </div>
+                <div class="sidebar-item">
+                    <i class="fas fa-palette"></i>
+                    <span>MA</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Area -->
+        <div class="content">
+            <!-- Banner -->
+            <div class="banner">
+                <h1>Welcome to EduStreamAI</h1>
+                <p>Your ultimate destination for educational content. Learn from the best instructors across various subjects.</p>
+                <button class="banner-button">Explore Courses</button>
+            </div>
+
+            <!-- Category Tabs -->
+            <div class="category-tabs">
+                <button class="category-tab active">All</button>
+                <button class="category-tab">Mathematics</button>
+                <button class="category-tab">Science</button>
+                <button class="category-tab">Computer Science</button>
+                <button class="category-tab">History</button>
+                <button class="category-tab">Literature</button>
+                <button class="category-tab">Art & Design</button>
+                <button class="category-tab">Music</button>
+                <button class="category-tab">Business</button>
+                <button class="category-tab">Languages</button>
+            </div>
+
+            <!-- Teacher Profile
+            <div class="teacher-profile">
+                <div class="teacher-avatar">MS</div>
+                <div class="teacher-info">
+                    <div class="teacher-name">Math Simplified</div>
+                    <div class="teacher-stats">
+                        <span><i class="fas fa-users"></i> 245K Followers</span>
+                        <span><i class="fas fa-video"></i> 128 Videos</span>
+                    </div>
+                    <div class="teacher-actions">
+                        <button class="teacher-btn btn-follow"><i class="fas fa-plus"></i> Follow</button>
+                        <button class="teacher-btn btn-view"><i class="fas fa-eye"></i> View Channel</button>
+                    </div>
+                </div>
+            </div> -->
+
+            <!-- Horizontal Scroll Channel Container -->
+<div class="channels-section">
+    <div class="section-header">
+        <h2 class="section-title">Popular Channels</h2>
+        <a href="#" class="view-all">
+            View All <i class="fas fa-chevron-right"></i>
+        </a>
+    </div>
+    
+    <div class="channels-scroll-container">
+        <button class="scroll-btn scroll-left">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        
+        <div class="channels-scroll" id="channelsScroll">
+            <!-- Channel 1 -->
+            <div class="channel-card-compact" data-channel-id="1">
+                <div class="channel-avatar-compact">MS</div>
+                <div class="channel-info-compact">
+                    <h3 class="channel-name-compact">Math Simplified</h3>
+                    <div class="channel-subject-compact">Mathematics</div>
+                    <div class="channel-stats-compact">
+                        <div class="stat-compact">
+                            <div class="stat-value-compact">245K</div>
+                            <div class="stat-label-compact">Followers</div>
+                        </div>
+                        <div class="stat-compact">
+                            <div class="stat-value-compact">128</div>
+                            <div class="stat-label-compact">Videos</div>
+                        </div>
+                    </div>
+                    <div class="channel-actions-compact">
+                        <button class="channel-btn-compact btn-follow-compact">Follow</button>
+                        <a href="tutor.html" class="channel-btn-compact btn-view-compact">View</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Channel 2 -->
+            <div class="channel-card-compact" data-channel-id="2">
+                <div class="channel-avatar-compact">SS</div>
+                <div class="channel-info-compact">
+                    <h3 class="channel-name-compact">Science Simplified</h3>
+                    <div class="channel-subject-compact">Physics</div>
+                    <div class="channel-stats-compact">
+                        <div class="stat-compact">
+                            <div class="stat-value-compact">512K</div>
+                            <div class="stat-label-compact">Followers</div>
+                        </div>
+                        <div class="stat-compact">
+                            <div class="stat-value-compact">95</div>
+                            <div class="stat-label-compact">Videos</div>
+                        </div>
+                    </div>
+                    <div class="channel-actions-compact">
+                        <button class="channel-btn-compact btn-follow-compact">Follow</button>
+                        <a href="tutor.html" class="channel-btn-compact btn-view-compact">View</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Channel 3 -->
+            <div class="channel-card-compact" data-channel-id="3">
+                <div class="channel-avatar-compact">CM</div>
+                <div class="channel-info-compact">
+                    <h3 class="channel-name-compact">CodeMaster</h3>
+                    <div class="channel-subject-compact">Programming</div>
+                    <div class="channel-stats-compact">
+                        <div class="stat-compact">
+                            <div class="stat-value-compact">1.2M</div>
+                            <div class="stat-label-compact">Followers</div>
+                        </div>
+                        <div class="stat-compact">
+                            <div class="stat-value-compact">210</div>
+                            <div class="stat-label-compact">Videos</div>
+                        </div>
+                    </div>
+                    <div class="channel-actions-compact">
+                        <button class="channel-btn-compact btn-follow-compact">Follow</button>
+                        <a href="tutor.html" class="channel-btn-compact btn-view-compact">View</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Channel 4 -->
+            <div class="channel-card-compact" data-channel-id="4">
+                <div class="channel-avatar-compact">LE</div>
+                <div class="channel-info-compact">
+                    <h3 class="channel-name-compact">Language Experts</h3>
+                    <div class="channel-subject-compact">English</div>
+                    <div class="channel-stats-compact">
+                        <div class="stat-compact">
+                            <div class="stat-value-compact">876K</div>
+                            <div class="stat-label-compact">Followers</div>
+                        </div>
+                        <div class="stat-compact">
+                            <div class="stat-value-compact">156</div>
+                            <div class="stat-label-compact">Videos</div>
+                        </div>
+                    </div>
+                    <div class="channel-actions-compact">
+                        <button class="channel-btn-compact btn-follow-compact">Follow</button>
+                        <a href="tutor.html" class="channel-btn-compact btn-view-compact">View</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Channel 5 -->
+            <div class="channel-card-compact" data-channel-id="5">
+                <div class="channel-avatar-compact">HH</div>
+                <div class="channel-info-compact">
+                    <h3 class="channel-name-compact">History Hub</h3>
+                    <div class="channel-subject-compact">History</div>
+                    <div class="channel-stats-compact">
+                        <div class="stat-compact">
+                            <div class="stat-value-compact">432K</div>
+                            <div class="stat-label-compact">Followers</div>
+                        </div>
+                        <div class="stat-compact">
+                            <div class="stat-value-compact">87</div>
+                            <div class="stat-label-compact">Videos</div>
+                        </div>
+                    </div>
+                    <div class="channel-actions-compact">
+                        <button class="channel-btn-compact btn-follow-compact">Follow</button>
+                        <a href="tutor.html" class="channel-btn-compact btn-view-compact">View</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Channel 6 -->
+            <div class="channel-card-compact" data-channel-id="6">
+                <div class="channel-avatar-compact">AA</div>
+                <div class="channel-info-compact">
+                    <h3 class="channel-name-compact">AI Academy</h3>
+                    <div class="channel-subject-compact">AI/ML</div>
+                    <div class="channel-stats-compact">
+                        <div class="stat-compact">
+                            <div class="stat-value-compact">654K</div>
+                            <div class="stat-label-compact">Followers</div>
+                        </div>
+                        <div class="stat-compact">
+                            <div class="stat-value-compact">73</div>
+                            <div class="stat-label-compact">Videos</div>
+                        </div>
+                    </div>
+                    <div class="channel-actions-compact">
+                        <button class="channel-btn-compact btn-follow-compact">Follow</button>
+                        <a href="tutor.html" class="channel-btn-compact btn-view-compact">View</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Channel 7 -->
+            <div class="channel-card-compact" data-channel-id="7">
+                <div class="channel-avatar-compact">CE</div>
+                <div class="channel-info-compact">
+                    <h3 class="channel-name-compact">ChemExplained</h3>
+                    <div class="channel-subject-compact">Chemistry</div>
+                    <div class="channel-stats-compact">
+                        <div class="stat-compact">
+                            <div class="stat-value-compact">321K</div>
+                            <div class="stat-label-compact">Followers</div>
+                        </div>
+                        <div class="stat-compact">
+                            <div class="stat-value-compact">64</div>
+                            <div class="stat-label-compact">Videos</div>
+                        </div>
+                    </div>
+                    <div class="channel-actions-compact">
+                        <button class="channel-btn-compact btn-follow-compact">Follow</button>
+                        <a href="tutor.html" class="channel-btn-compact btn-view-compact">View</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Channel 8 -->
+            <div class="channel-card-compact" data-channel-id="8">
+                <div class="channel-avatar-compact">BM</div>
+                <div class="channel-info-compact">
+                    <h3 class="channel-name-compact">Brain Matters</h3>
+                    <div class="channel-subject-compact">Neuroscience</div>
+                    <div class="channel-stats-compact">
+                        <div class="stat-compact">
+                            <div class="stat-value-compact">876K</div>
+                            <div class="stat-label-compact">Followers</div>
+                        </div>
+                        <div class="stat-compact">
+                            <div class="stat-value-compact">42</div>
+                            <div class="stat-label-compact">Videos</div>
+                        </div>
+                    </div>
+                    <div class="channel-actions-compact">
+                        <button class="channel-btn-compact btn-follow-compact">Follow</button>
+                        <a href="tutor.html" class="channel-btn-compact btn-view-compact">View</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Channel 9 -->
+            <div class="channel-card-compact" data-channel-id="9">
+                <div class="channel-avatar-compact">LL</div>
+                <div class="channel-info-compact">
+                    <h3 class="channel-name-compact">Literature Lab</h3>
+                    <div class="channel-subject-compact">Literature</div>
+                    <div class="channel-stats-compact">
+                        <div class="stat-compact">
+                            <div class="stat-value-compact">298K</div>
+                            <div class="stat-label-compact">Followers</div>
+                        </div>
+                        <div class="stat-compact">
+                            <div class="stat-value-compact">78</div>
+                            <div class="stat-label-compact">Videos</div>
+                        </div>
+                    </div>
+                    <div class="channel-actions-compact">
+                        <button class="channel-btn-compact btn-follow-compact">Follow</button>
+                        <a href="tutor.html" class="channel-btn-compact btn-view-compact">View</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Channel 10 -->
+            <div class="channel-card-compact" data-channel-id="10">
+                <div class="channel-avatar-compact">KA</div>
+                <div class="channel-info-compact">
+                    <h3 class="channel-name-compact">Khan Academy</h3>
+                    <div class="channel-subject-compact">Multiple</div>
+                    <div class="channel-stats-compact">
+                        <div class="stat-compact">
+                            <div class="stat-value-compact">5.2M</div>
+                            <div class="stat-label-compact">Followers</div>
+                        </div>
+                        <div class="stat-compact">
+                            <div class="stat-value-compact">650</div>
+                            <div class="stat-label-compact">Videos</div>
+                        </div>
+                    </div>
+                    <div class="channel-actions-compact">
+                        <button class="channel-btn-compact btn-follow-compact">Follow</button>
+                        <a href="tutor.html" class="channel-btn-compact btn-view-compact">View</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <button class="scroll-btn scroll-right">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+</div>
+
+
+            <!-- Recommended Videos -->
+            <h2 class="section-title">Recommended for you</h2>
+            <div class="video-grid">
+                <div class="video-card" data-video-id="1">
+                    <div class="video-thumbnail">
+                        <i class="fas fa-play-circle" style="font-size: 48px;"></i>
+                        <div class="video-duration">24:18</div>
+                    </div>
+                    <div class="video-info">
+                        <div class="video-title">Introduction to Calculus: Understanding Derivatives</div>
+                        <div class="video-meta">
+                            <div class="video-channel">Math Essentials</div>
+                            <div class="video-views">245K views</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-card" data-video-id="2">
+                    <div class="video-thumbnail">
+                        <i class="fas fa-play-circle" style="font-size: 48px;"></i>
+                        <div class="video-duration">18:42</div>
+                    </div>
+                    <div class="video-info">
+                        <div class="video-title">Quantum Physics Explained in Simple Terms</div>
+                        <div class="video-meta">
+                            <div class="video-channel">Science Simplified</div>
+                            <div class="video-views">512K views</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-card" data-video-id="3">
+                    <div class="video-thumbnail">
+                        <i class="fas fa-play-circle" style="font-size: 48px;"></i>
+                        <div class="video-duration">32:05</div>
+                    </div>
+                    <div class="video-info">
+                        <div class="video-title">Python Programming for Beginners - Full Course</div>
+                        <div class="video-meta">
+                            <div class="video-channel">CodeMaster</div>
+                            <div class="video-views">1.2M views</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Continue Watching (if logged in) -->
+            <div id="continueWatching" style="display: none;">
+                <h2 class="section-title">Continue Watching</h2>
+                <div class="video-grid">
+                    <div class="video-card" data-video-id="4">
+                        <div class="video-thumbnail">
+                            <i class="fas fa-play-circle" style="font-size: 48px;"></i>
+                            <div class="video-duration">15:33</div>
+                        </div>
+                        <div class="video-info">
+                            <div class="video-title">The French Revolution: A Complete Overview</div>
+                            <div class="video-meta">
+                                <div class="video-channel">History Hub</div>
+                                <div class="video-views">189K views</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trending Videos -->
+            <h2 class="section-title">Trending now</h2>
+            <div class="video-grid">
+                <div class="video-card" data-video-id="5">
+                    <div class="video-thumbnail">
+                        <i class="fas fa-play-circle" style="font-size: 48px;"></i>
+                        <div class="video-duration">19:25</div>
+                    </div>
+                    <div class="video-info">
+                        <div class="video-title">Neuroscience: How Your Brain Really Works</div>
+                        <div class="video-meta">
+                            <div class="video-channel">Brain Matters</div>
+                            <div class="video-views">876K views</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-card" data-video-id="6">
+                    <div class="video-thumbnail">
+                        <i class="fas fa-play-circle" style="font-size: 48px;"></i>
+                        <div class="video-duration">26:40</div>
+                    </div>
+                    <div class="video-info">
+                        <div class="video-title">Linear Algebra - Complete University Course</div>
+                        <div class="video-meta">
+                            <div class="video-channel">Math Pro</div>
+                            <div class="video-views">432K views</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Related to Your Interests -->
+            <h2 class="section-title">Related to your interests</h2>
+            <div class="video-grid">
+                <div class="video-card" data-video-id="7">
+                    <div class="video-thumbnail">
+                        <i class="fas fa-play-circle" style="font-size: 48px;"></i>
+                        <div class="video-duration">14:18</div>
+                    </div>
+                    <div class="video-info">
+                        <div class="video-title">Shakespeare's Hamlet: Analysis and Summary</div>
+                        <div class="video-meta">
+                            <div class="video-channel">Literature Lab</div>
+                            <div class="video-views">298K views</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-card" data-video-id="8">
+                    <div class="video-thumbnail">
+                        <i class="fas fa-play-circle" style="font-size: 48px;"></i>
+                        <div class="video-duration">21:05</div>
+                    </div>
+                    <div class="video-info">
+                        <div class="video-title">Algebra Basics: What Are Functions?</div>
+                        <div class="video-meta">
+                            <div class="video-channel">Khan Academy</div>
+                            <div class="video-views">543K views</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Login to EduStreamAI</h2>
+                <button class="close-btn" id="closeLogin">&times;</button>
+            </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label" for="loginEmail">Email</label>
+                    <input type="email" class="form-input" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="loginPassword">Password</label>
+                    <input type="password" class="form-input" id="loginPassword" required>
+                </div>
+                <div class="captcha-container">
+                    <div class="captcha-code" id="loginCaptcha">A3B7C2</div>
+                    <button type="button" class="refresh-captcha" id="refreshLoginCaptcha">
+                        <i class="fas fa-redo"></i>
+                    </button>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="loginCaptchaInput">Enter Captcha</label>
+                    <input type="text" class="form-input" id="loginCaptchaInput" required>
+                </div>
+                <button type="submit" class="submit-btn">Login</button>
+            </form>
+            <div class="form-footer">
+                <p>Don't have an account? <a href="#" class="form-link" id="showRegister">Register</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Join EduStreamAI</h2>
+                <button class="close-btn" id="closeRegister">&times;</button>
+            </div>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label class="form-label" for="registerPhoto">Profile Photo</label>
+                    <input type="file" class="form-input" id="registerPhoto" accept="image/*">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="registerName">Full Name</label>
+                    <input type="text" class="form-input" id="registerName" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="registerEmail">Email</label>
+                    <input type="email" class="form-input" id="registerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="registerInterest">Interest / Class</label>
+                    <select class="form-select" id="registerInterest" required>
+                        <option value="">Select your interest or class</option>
+                        <option value="school">School Education</option>
+                        <option value="competitive">Competitive Exams</option>
+                        <option value="graduation">Graduation</option>
+                        <option value="postgraduation">Post Graduation</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="registerPassword">Password</label>
+                    <input type="password" class="form-input" id="registerPassword" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="registerConfirmPassword">Confirm Password</label>
+                    <input type="password" class="form-input" id="registerConfirmPassword" required>
+                </div>
+                <div class="captcha-container">
+                    <div class="captcha-code" id="registerCaptcha">X9Y4Z1</div>
+                    <button type="button" class="refresh-captcha" id="refreshRegisterCaptcha">
+                        <i class="fas fa-redo"></i>
+                    </button>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="registerCaptchaInput">Enter Captcha</label>
+                    <input type="text" class="form-input" id="registerCaptchaInput" required>
+                </div>
+                <button type="submit" class="submit-btn">Create Account</button>
+            </form>
+            <div class="form-footer">
+                <p>Already have an account? <a href="#" class="form-link" id="showLogin">Login</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const loginBtn = document.getElementById('loginBtn');
+        const registerBtn = document.getElementById('registerBtn');
+        const loginModal = document.getElementById('loginModal');
+        const registerModal = document.getElementById('registerModal');
+        const closeLogin = document.getElementById('closeLogin');
+        const closeRegister = document.getElementById('closeRegister');
+        const showRegister = document.getElementById('showRegister');
+        const showLogin = document.getElementById('showLogin');
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        const authButtons = document.getElementById('authButtons');
+        const userProfile = document.getElementById('userProfile');
+        const continueWatching = document.getElementById('continueWatching');
+        const refreshLoginCaptcha = document.getElementById('refreshLoginCaptcha');
+        const refreshRegisterCaptcha = document.getElementById('refreshRegisterCaptcha');
+        const loginCaptcha = document.getElementById('loginCaptcha');
+        const registerCaptcha = document.getElementById('registerCaptcha');
+
+        // Sidebar toggle functionality
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('collapsed');
+            const icon = sidebarToggle.querySelector('i');
+            if (sidebar.classList.contains('collapsed')) {
+                icon.classList.remove('fa-chevron-left');
+                icon.classList.add('fa-chevron-right');
+            } else {
+                icon.classList.remove('fa-chevron-right');
+                icon.classList.add('fa-chevron-left');
+            }
+        });
+
+        // Sidebar submenu functionality
+        document.querySelectorAll('.sidebar-item[data-target]').forEach(item => {
+            item.addEventListener('click', () => {
+                const target = item.getAttribute('data-target');
+                const submenu = document.getElementById(target);
+                submenu.classList.toggle('active');
+            });
+        });
+
+        // Modal functionality
+        loginBtn.addEventListener('click', () => {
+            loginModal.style.display = 'flex';
+        });
+
+        registerBtn.addEventListener('click', () => {
+            registerModal.style.display = 'flex';
+        });
+
+        closeLogin.addEventListener('click', () => {
+            loginModal.style.display = 'none';
+        });
+
+        closeRegister.addEventListener('click', () => {
+            registerModal.style.display = 'none';
+        });
+
+        showRegister.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginModal.style.display = 'none';
+            registerModal.style.display = 'flex';
+        });
+
+        showLogin.addEventListener('click', (e) => {
+            e.preventDefault();
+            registerModal.style.display = 'none';
+            loginModal.style.display = 'flex';
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === loginModal) {
+                loginModal.style.display = 'none';
+            }
+            if (e.target === registerModal) {
+                registerModal.style.display = 'none';
+            }
+        });
+
+        // Form submission
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            // In a real app, you would validate and send to server
+            alert('Login successful!');
+            loginModal.style.display = 'none';
+            authButtons.style.display = 'none';
+            userProfile.style.display = 'flex';
+            continueWatching.style.display = 'block';
+        });
+
+        registerForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            // In a real app, you would validate and send to server
+            alert('Registration successful! Please login.');
+            registerModal.style.display = 'none';
+            loginModal.style.display = 'flex';
+        });
+
+        // Captcha refresh
+        function generateCaptcha() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let captcha = '';
+            for (let i = 0; i < 6; i++) {
+                captcha += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return captcha;
+        }
+
+        refreshLoginCaptcha.addEventListener('click', () => {
+            loginCaptcha.textContent = generateCaptcha();
+        });
+
+        refreshRegisterCaptcha.addEventListener('click', () => {
+            registerCaptcha.textContent = generateCaptcha();
+        });
+
+        // Category tabs functionality
+        document.querySelectorAll('.category-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+            });
+        });
+
+        // Sidebar item selection
+        document.querySelectorAll('.sidebar-item').forEach(item => {
+            item.addEventListener('click', () => {
+                if (!item.hasAttribute('data-target')) {
+                    document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // Video card click simulation
+        document.querySelectorAll('.video-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const videoId = card.getAttribute('data-video-id');
+                window.location.href = `course.html?id=${videoId}`;
+            });
+        });
+
+        // Teacher profile click
+        //document.querySelector('.btn-view').addEventListener('click', () => {
+           // window.location.href = 'tutor.html';
+        //});
+
+        // Horizontal scroll functionality
+    const scrollContainer = document.getElementById('channelsScroll');
+    const scrollLeftBtn = document.querySelector('.scroll-left');
+    const scrollRightBtn = document.querySelector('.scroll-right');
+
+    scrollLeftBtn.addEventListener('click', () => {
+        scrollContainer.scrollBy({
+            left: -250,
+            behavior: 'smooth'
+        });
+    });
+
+    scrollRightBtn.addEventListener('click', () => {
+        scrollContainer.scrollBy({
+            left: 250,
+            behavior: 'smooth'
+        });
+    });
+
+    // Follow button functionality
+    document.querySelectorAll('.btn-follow-compact').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (this.classList.contains('following')) {
+                this.classList.remove('following');
+                this.textContent = 'Follow';
+            } else {
+                this.classList.add('following');
+                this.textContent = 'Following';
+            }
+        });
+    });
+
+    // Channel card click functionality
+    document.querySelectorAll('.channel-card-compact').forEach(card => {
+        card.addEventListener('click', function() {
+            const channelId = this.getAttribute('data-channel-id');
+            window.location.href = `tutor.html?id=${channelId}`;
+        });
+    });
+
+    // Hide scroll buttons when at edges
+    function updateScrollButtons() {
+        const scrollLeft = scrollContainer.scrollLeft;
+        const maxScroll = scrollContainer.scrollWidth - scrollContainer.clientWidth;
+        
+        scrollLeftBtn.style.opacity = scrollLeft > 0 ? '1' : '0.5';
+        scrollRightBtn.style.opacity = scrollLeft < maxScroll - 10 ? '1' : '0.5';
+    }
+
+    scrollContainer.addEventListener('scroll', updateScrollButtons);
+    window.addEventListener('resize', updateScrollButtons);
+    updateScrollButtons();
+
+    
+
+        // Search functionality
+        document.querySelector('.search-button').addEventListener('click', () => {
+            const query = document.querySelector('.search-input').value;
+            if (query.trim() !== '') {
+                alert(`Searching for: ${query}`);
+            }
+        });
+    </script>
+    <script src="camera-widget.js"></script>
+<script>
+// You can control the widget programmatically
+const widget = initCameraWidget();
+
+// To destroy the widget later
+// widget.destroy();
+</script>
+</body>
+</html>
